@@ -1,6 +1,6 @@
 <?php
 
-require_once MODEL_PATH . '/Database.php';
+require_once MODEL_PATH . '/database.php';
 
 class UserModel
 {

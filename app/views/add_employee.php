@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar nuevo empleado</title>
     <link rel="stylesheet" href="<?= asset('estilos.css') ?>">
+    <link rel="stylesheet" href="<?= asset('dashboard.css') ?>">
 </head>
 <body class="dashboard-body">
 <div class="employee-shell">

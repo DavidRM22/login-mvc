@@ -10,10 +10,24 @@ define('DATA_PATH', BASE_PATH . '/data');
 
 function redirect($url)
 {
-  header("Location: $url");
+    header("Location: $url");
+    exit;
+}
 
-  exit;
+function route($controller, $action)
+{
+    $script = $_SERVER['SCRIPT_NAME'] ?? '/index.php';
+    return $script . '?controller=' . urlencode($controller) . '&action=' . urlencode($action);
+}
 
+function asset($file)
+{
+    $scriptDir = dirname($_SERVER['SCRIPT_NAME'] ?? '/');
+    if ($scriptDir === '.' || $scriptDir === DIRECTORY_SEPARATOR) {
+        $scriptDir = '';
+    }
+
+    return rtrim($scriptDir, '/\\') . '/' . ltrim($file, '/');
 }
 
 function isLoggedIn()
@@ -27,7 +41,7 @@ date_default_timezone_set('America/Lima');
 function authRequired()
 {
     if (!isset($_SESSION['user_id'])) {
-        redirect('index.php?controller=auth&action=login');
+        redirect(route('auth', 'login'));
     }
 }
 

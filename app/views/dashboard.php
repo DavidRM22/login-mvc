@@ -11,6 +11,12 @@
 <?php
 $view = $_GET['view'] ?? 'table';
 $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
+
+$totalEmployees = count($employees);
+$instructors = count(array_filter($employees, fn($employee) => strtolower($employee['type'] ?? '') === 'instructor'));
+$developers = count(array_filter($employees, fn($employee) => strtolower($employee['type'] ?? '') === 'desarrollador'));
+$admins = count(array_filter($employees, fn($employee) => strtolower($employee['type'] ?? '') === 'administrador'));
+$assistants = count(array_filter($employees, fn($employee) => strtolower($employee['type'] ?? '') === 'asistente administrativo'));
 ?>
 <div class="dashboard-layout">
     <aside class="dashboard-sidebar">
@@ -63,27 +69,27 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
             <div class="stats-grid">
                 <article class="stat-card">
                     <h4>Total Personal</h4>
-                    <p class="stat-value">3</p>
+                    <p class="stat-value"><?= $totalEmployees ?></p>
                     <small>Empleados registrados</small>
                 </article>
                 <article class="stat-card">
                     <h4>Instructores</h4>
-                    <p class="stat-value">2</p>
+                    <p class="stat-value"><?= $instructors ?></p>
                     <small>Equipo docente</small>
                 </article>
                 <article class="stat-card">
                     <h4>Desarrolladores</h4>
-                    <p class="stat-value">0</p>
+                    <p class="stat-value"><?= $developers ?></p>
                     <small>Equipo técnico</small>
                 </article>
                 <article class="stat-card">
                     <h4>Administradores</h4>
-                    <p class="stat-value">1</p>
+                    <p class="stat-value"><?= $admins ?></p>
                     <small>Personal administrativo</small>
                 </article>
                 <article class="stat-card">
                     <h4>Asist. Administrativos</h4>
-                    <p class="stat-value">0</p>
+                    <p class="stat-value"><?= $assistants ?></p>
                     <small>Personal de soporte</small>
                 </article>
             </div>
@@ -108,13 +114,15 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
 
             <?php if ($activeView === 'gallery'): ?>
                 <div class="gallery-grid">
-                    <article class="profile-card">
-                        <div class="avatar"><?= strtoupper(substr($user['name'], 0, 1)) ?></div>
-                        <h4><?= $user['name'] ?></h4>
-                        <span class="role-chip">Instructor</span>
-                        <p><?= $user['email'] ?></p>
-                        <small>Registrado: <?= $user['created_at'] ?></small>
-                    </article>
+                    <?php foreach ($employees as $employee): ?>
+                        <article class="profile-card">
+                            <div class="avatar"><?= strtoupper(substr($employee['name'] ?? '-', 0, 1)) ?></div>
+                            <h4><?= htmlspecialchars($employee['name'] ?? 'Sin nombre') ?></h4>
+                            <span class="role-chip"><?= htmlspecialchars($employee['type'] ?? 'Sin tipo') ?></span>
+                            <p><?= htmlspecialchars($employee['email'] ?? '-') ?></p>
+                            <small>Registrado: <?= htmlspecialchars($employee['created_at'] ?? '-') ?></small>
+                        </article>
+                    <?php endforeach; ?>
                 </div>
             <?php else: ?>
                 <div class="table-wrap table-wrap--dashboard">
@@ -131,42 +139,25 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td><?= $user['name'] ?></td>
-                            <td><?= $user['email'] ?></td>
-                            <td><span class="role-chip">Instructor</span></td>
-                            <td>Coordinador de Contenidos</td>
-                            <td>Recursos Humanos</td>
-                            <td><span class="status-chip">active</span></td>
-                            <td>
-                                <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
-                                <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>techskillsperu</td>
-                            <td>techskillsperu@gmail.com</td>
-                            <td><span class="role-chip">Instructor</span></td>
-                            <td>N/A</td>
-                            <td>Recursos Humanos</td>
-                            <td><span class="status-chip">active</span></td>
-                            <td>
-                                <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
-                                <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Carlos Zambrano C.</td>
-                            <td>informes@techskillsperu.com</td>
-                            <td><span class="role-chip role-chip--admin">admin</span></td>
-                            <td>Senior</td>
-                            <td>Administración</td>
-                            <td><span class="status-chip">active</span></td>
-                            <td>
-                                <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
-                                <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
-                            </td>
-                        </tr>
+                        <?php foreach ($employees as $employee): ?>
+                            <?php
+                            $employeeType = $employee['type'] ?? 'Instructor';
+                            $isAdmin = strtolower($employeeType) === 'administrador';
+                            $employeeStatus = $employee['status'] ?? 'active';
+                            ?>
+                            <tr>
+                                <td><?= htmlspecialchars($employee['name'] ?? 'Sin nombre') ?></td>
+                                <td><?= htmlspecialchars($employee['email'] ?? '-') ?></td>
+                                <td><span class="role-chip <?= $isAdmin ? 'role-chip--admin' : '' ?>"><?= htmlspecialchars($employeeType) ?></span></td>
+                                <td><?= htmlspecialchars($employee['position'] ?? 'N/A') ?></td>
+                                <td><?= htmlspecialchars($employee['department'] ?? 'N/A') ?></td>
+                                <td><span class="status-chip"><?= htmlspecialchars($employeeStatus) ?></span></td>
+                                <td>
+                                    <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
+                                    <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>

@@ -17,8 +17,7 @@ class UserModel
 
     public function create($data)
     {
-        // --- GUARDAR EN JSON ---
-        $users = json_decode(file_get_contents($this->jsonFile), true);
+        $users = $this->getAll();
 
         $data['id'] = uniqid();
         $data['created_at'] = date('Y-m-d H:i:s');
@@ -27,19 +26,24 @@ class UserModel
 
         file_put_contents($this->jsonFile, json_encode($users, JSON_PRETTY_PRINT));
 
-        // --- GUARDAR EN MYSQL ---
-        $db = Database::connect();
+        $this->saveInDatabase($data);
 
-        $sql = "INSERT INTO users (id, name, email, password, created_at)
-                VALUES (:id, :name, :email, :password, :created_at)";
+        return $data;
+    }
 
-        $stmt = $db->prepare($sql);
-        $stmt->execute($data);
+    public function getAll()
+    {
+        return json_decode(file_get_contents($this->jsonFile), true) ?? [];
+    }
+
+    public function emailExists($email)
+    {
+        return $this->findByEmail($email) !== null;
     }
 
     public function findByEmail($email)
     {
-        $users = json_decode(file_get_contents($this->jsonFile), true);
+        $users = $this->getAll();
 
         foreach ($users as $user) {
             if ($user['email'] === $email) {
@@ -48,5 +52,20 @@ class UserModel
         }
 
         return null;
+    }
+
+    private function saveInDatabase($data)
+    {
+        try {
+            $db = Database::connect();
+
+            $sql = "INSERT INTO users (id, name, email, password, created_at)
+                    VALUES (:id, :name, :email, :password, :created_at)";
+
+            $stmt = $db->prepare($sql);
+            $stmt->execute($data);
+        } catch (Throwable $exception) {
+            // Entorno local sin MySQL: mantener funcionamiento con JSON como respaldo.
+        }
     }
 }

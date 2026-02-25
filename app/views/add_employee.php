@@ -15,7 +15,21 @@
             <a class="employee-modal__close" href="<?= route('dashboard', 'index') ?>" aria-label="Cerrar">×</a>
         </div>
 
-        <form class="employee-form" method="get" action="<?= route('dashboard', 'index') ?>">
+        <?php if (!empty($_SESSION['employee_error'])): ?>
+            <div class="alert-error" style="margin-bottom: 16px; color: #dc2626; font-weight: 600;">
+                <?= htmlspecialchars($_SESSION['employee_error']) ?>
+            </div>
+            <?php unset($_SESSION['employee_error']); ?>
+        <?php endif; ?>
+
+        <?php if (!empty($createdEmployee) && !empty($generatedPassword)): ?>
+            <div class="alert-success" style="margin-bottom: 16px; padding: 12px; border-radius: 10px; background: #ecfdf3; border: 1px solid #bbf7d0; color: #065f46;">
+                <strong>Empleado creado correctamente:</strong> <?= htmlspecialchars($createdEmployee['name']) ?><br>
+                <strong>Contraseña temporal:</strong> <code><?= htmlspecialchars($generatedPassword) ?></code>
+            </div>
+        <?php endif; ?>
+
+        <form class="employee-form" method="post" action="<?= route('dashboard', 'storeEmployee') ?>">
             <h2>Información del Usuario</h2>
             <div class="employee-grid employee-grid--two">
                 <div class="field">
@@ -48,38 +62,38 @@
                 <div class="field">
                     <label for="type">Tipo de Empleado *</label>
                     <select id="type" name="type" required>
-                        <option>Administrador</option>
-                        <option>Instructor</option>
-                        <option>Desarrollador</option>
-                        <option>Asistente Administrativo</option>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Instructor" selected>Instructor</option>
+                        <option value="Desarrollador">Desarrollador</option>
+                        <option value="Asistente Administrativo">Asistente Administrativo</option>
                     </select>
                 </div>
 
                 <div class="field">
                     <label for="department">Departamento</label>
                     <select id="department" name="department">
-                        <option>Seleccionar departamento</option>
-                        <option>Administracion</option>
-                        <option>Recursos Humanos</option>
-                        <option>Tecnologia de la Informacion</option>
-                        <option>Desarrollo</option>
-                        <option>Educacion</option>
-                        <option>Marketing</option>
-                        <option>Ventas</option>
-                        <option>Soporte Tecnico</option>
-                        <option>Operaciones</option>
-                        <option>Finanzas</option>
+                        <option value="">Seleccionar departamento</option>
+                        <option value="Administracion">Administracion</option>
+                        <option value="Recursos Humanos">Recursos Humanos</option>
+                        <option value="Tecnologia de la Informacion">Tecnologia de la Informacion</option>
+                        <option value="Desarrollo">Desarrollo</option>
+                        <option value="Educacion">Educacion</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Ventas">Ventas</option>
+                        <option value="Soporte Tecnico">Soporte Tecnico</option>
+                        <option value="Operaciones">Operaciones</option>
+                        <option value="Finanzas">Finanzas</option>
                     </select>
                 </div>
 
                 <div class="field">
                     <label for="position">Puesto / Posición</label>
                     <select id="position" name="position">
-                        <option>Seleccionar puesto</option>
-                        <option>Instructor Senior</option>
-                        <option>Instructor Junior</option>
-                        <option>Coordinador de Contenidos</option>
-                        <option>Especialista en Formacion</option>
+                        <option value="">Seleccionar puesto</option>
+                        <option value="Instructor Senior">Instructor Senior</option>
+                        <option value="Instructor Junior">Instructor Junior</option>
+                        <option value="Coordinador de Contenidos">Coordinador de Contenidos</option>
+                        <option value="Especialista en Formacion">Especialista en Formacion</option>
                     
                     </select>
                 </div>
@@ -92,8 +106,8 @@
                 <div class="field">
                     <label for="status">Estado *</label>
                     <select id="status" name="status" required>
-                        <option>Activo</option>
-                        <option>Inactivo</option>
+                        <option value="Activo" selected>Activo</option>
+                        <option value="Inactivo">Inactivo</option>
                     </select>
                 </div>
             </div>

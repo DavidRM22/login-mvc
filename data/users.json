@@ -68,5 +68,40 @@
         "password": "$2y$10$4sRh10Q2gCUMimWL2fKnfeav52nHh3uQQvMnE7h5CfWiY\/ol\/9rc2",
         "id": "6995f9b7d2311",
         "created_at": "2026-02-18 12:41:11"
+    },
+    {
+        "name": "juan",
+        "email": "juan@gmail.com",
+        "password": "$2y$10$\/l9mJyLjUTHZdncMLV1Gt.do2utWhlt5EGvKzeZcow792bXT\/ne12",
+        "id": "699e43df7c058",
+        "created_at": "2026-02-24 19:35:43"
+    },
+    {
+        "name": "jhoan",
+        "email": "jhoan@gmail.com",
+        "password": "$2y$10$dGD4faheP1eKXalLYpoM3uo.1GiXNhYkJcUjIBj\/kHIucUneFmWkG",
+        "id": "699e4e2ae3b62",
+        "created_at": "2026-02-24 20:19:38"
+    },
+    {
+        "name": "lenin",
+        "email": "lenin@gmail.com",
+        "password": "$2y$10$d9PBIJLv1k8ONj8\/ZW.Z0ezLeyQl4qNTPOLs8I.xB0VlN.B1mmtB6",
+        "id": "699e4ebddb4b4",
+        "created_at": "2026-02-24 20:22:05"
+    },
+    {
+        "name": "jhe",
+        "email": "jhe@gmail.com",
+        "password": "$2y$10$3R0zNoATGniQcGk8V26nxeCZOjTRdgfBToTpFrv9DdzW.8lgX0Cya",
+        "id": "699e52a366f88",
+        "created_at": "2026-02-24 20:38:43"
+    },
+    {
+        "name": "jhe",
+        "email": "jhe@gmail.com",
+        "password": "$2y$10$T770rNdC1WpUD69gS4nh2egmLMP1b1GOj812Vbw6OhMgwVk\/hMBiu",
+        "id": "699e52a5ab529",
+        "created_at": "2026-02-24 20:38:45"
     }
 ]

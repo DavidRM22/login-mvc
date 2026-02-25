@@ -20,7 +20,7 @@ class AuthController
 
     if (!$user || !password_verify($password, $user['password'])) {
         echo "❌ Credenciales incorrectas<br>";
-        echo "<a href='index.php?controller=auth&action=login'>Volver</a>";
+        echo "<a href='" . route('auth', 'login') . "'>Volver</a>";
         return;
     }
 
@@ -35,7 +35,7 @@ class AuthController
     $audit = new AuditModel();
     $audit->log('EVENT_LOGIN_ATTEMPT', $email, 'Credenciales válidas, OTP enviado');
 
-    redirect('index.php?controller=auth&action=verify');
+    redirect(route('auth', 'verify'));
     }
 
 
@@ -65,17 +65,14 @@ class AuthController
 
         // 3. Generar OTP
         $otpModel = new OTPModel();
-        $otpCode = $otpModel->generate($email);
+        $otpModel->generate($email);
 
         // 4. Guardar email en sesión
         $_SESSION['otp_email'] = $email;
 
-        // ⚠️ SOLO PARA PRUEBAS
-        echo "OTP generado: <strong>$otpCode</strong><br>";
-
-        // 5. Redirigir a verificación (luego)
-        echo "<a href='index.php?controller=auth&action=verify'>Ir a verificar OTP</a>";
+        // 5. Auditoría y redirección directa a verificación OTP
         $audit->log('EVENT_OTP_SENT', $email, 'OTP generado');
+        redirect(route('auth', 'verify'));
 
     }
 
@@ -102,7 +99,7 @@ class AuthController
 
     if (!$isValid) {
         echo "❌ Código incorrecto o expirado<br>";
-        echo "<a href='index.php?controller=auth&action=verify'>Intentar de nuevo</a>";
+        echo "<a href='" . route('auth', 'verify') . "'>Intentar de nuevo</a>";
         $audit = new AuditModel();
         $audit->log('EVENT_FAILED_OTP', $email, 'Código incorrecto o expirado');
         return;
@@ -117,7 +114,7 @@ class AuthController
     unset($_SESSION['otp_email']);
 
     // 5. Redirigir al dashboard (siguiente fase)
-    redirect('index.php?controller=dashboard&action=index');
+    redirect(route('dashboard', 'index'));
 }
 
 }

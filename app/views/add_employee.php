@@ -59,6 +59,16 @@
                     <label for="department">Departamento</label>
                     <select id="department" name="department">
                         <option>Seleccionar departamento</option>
+                        <option>Administracion</option>
+                        <option>Recursos Humanos</option>
+                        <option>Tecnologia de la Informacion</option>
+                        <option>Desarrollo</option>
+                        <option>Educacion</option>
+                        <option>Marketing</option>
+                        <option>Ventas</option>
+                        <option>Soporte Tecnico</option>
+                        <option>Operaciones</option>
+                        <option>Finanzas</option>
                         <option>Recursos Humanos</option>
                         <option>Administración</option>
                         <option>Operaciones</option>

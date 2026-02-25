@@ -1,46 +1,56 @@
 <?php
 
+require_once MODEL_PATH . '/database.php';
+
 class OTPModel
 {
-    private $jsonFile;
-
-    public function __construct()
-    {
-        $this->jsonFile = DATA_PATH . '/otp.json';
-
-        if (!file_exists($this->jsonFile)) {
-            file_put_contents($this->jsonFile, json_encode([]));
-        }
-    }
-
     public function generate($email)
     {
-        $otpData = json_decode(file_get_contents($this->jsonFile), true);
+        $db = Database::connect();
 
-        $code = rand(100000, 999999);
+        $code = (string) rand(100000, 999999);
+        $expiresAt = date('Y-m-d H:i:s', time() + 300);
 
-        $otpData[$email] = [
+        $sql = "INSERT INTO otp_codes (email, code, expires_at, created_at)
+                VALUES (:email, :code, :expires_at, NOW())
+                ON DUPLICATE KEY UPDATE
+                    code = VALUES(code),
+                    expires_at = VALUES(expires_at),
+                    created_at = NOW()";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            'email' => $email,
             'code' => $code,
-            'expires_at' => time() + 300
-        ];
-
-        file_put_contents($this->jsonFile, json_encode($otpData, JSON_PRETTY_PRINT));
+            'expires_at' => $expiresAt
+        ]);
 
         return $code;
     }
 
     public function verify($email, $code)
     {
-        $otpData = json_decode(file_get_contents($this->jsonFile), true);
+        $db = Database::connect();
 
-        if (!isset($otpData[$email])) {
+        $sql = "SELECT code, expires_at
+                FROM otp_codes
+                WHERE email = :email
+                LIMIT 1";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute(['email' => $email]);
+
+        $otp = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$otp) {
             return false;
         }
 
-        if (time() > $otpData[$email]['expires_at']) {
+        $isExpired = strtotime($otp['expires_at']) < time();
+        if ($isExpired) {
             return false;
         }
 
-        return $otpData[$email]['code'] == $code;
+        return $otp['code'] === (string) $code;
     }
 }

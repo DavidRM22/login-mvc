@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="<?= asset('estilos.css') ?>">
 </head>
 <body>
 <div class="page-shell">
@@ -19,8 +19,8 @@
         </ul>
 
         <div class="actions">
-            <a class="btn-secondary" href="index.php?controller=dashboard&action=audit">Ver auditoría</a>
-            <a class="btn-primary" href="index.php?controller=dashboard&action=logout">Cerrar sesión</a>
+            <a class="btn-secondary" href="<?= route('dashboard', 'audit') ?>">Ver auditoría</a>
+            <a class="btn-primary" href="<?= route('dashboard', 'logout') ?>">Cerrar sesión</a>
         </div>
     </section>
 </div>

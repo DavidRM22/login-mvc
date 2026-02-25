@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="<?= asset('estilos.css') ?>">
 </head>
 <body>
 <div class="page-shell">
@@ -12,7 +12,7 @@
         <h1>Bienvenido de vuelta</h1>
         <p class="subtitle">Ingresa tus credenciales para continuar.</p>
 
-        <form class="form-grid" method="POST" action="index.php?controller=auth&action=doLogin">
+        <form class="form-grid" method="POST" action="<?= route('auth', 'doLogin') ?>">
             <div class="field">
                 <label for="email">Correo electrónico</label>
                 <input id="email" type="email" name="email" placeholder="usuario@empresa.com" required>
@@ -27,7 +27,7 @@
         </form>
 
         <div class="links-row">
-            <a href="index.php?controller=auth&action=register">¿No tienes cuenta? Regístrate</a>
+            <a href="<?= route('auth', 'register') ?>">¿No tienes cuenta? Regístrate</a>
         </div>
     </section>
 </div>

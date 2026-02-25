@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="<?= asset('estilos.css') ?>">
 </head>
 <body>
 <div class="page-shell">
@@ -12,7 +12,7 @@
         <h1>Crear cuenta</h1>
         <p class="subtitle">Completa tus datos para registrarte en el sistema.</p>
 
-        <form class="form-grid" method="POST" action="index.php?controller=auth&action=doRegister">
+        <form class="form-grid" method="POST" action="<?= route('auth', 'doRegister') ?>">
             <div class="field">
                 <label for="name">Nombre</label>
                 <input id="name" type="text" name="name" placeholder="Tu nombre" required>
@@ -32,7 +32,7 @@
         </form>
 
         <div class="links-row">
-            <a href="index.php?controller=auth&action=login">Volver al login</a>
+            <a href="<?= route('auth', 'login') ?>">Volver al login</a>
         </div>
     </section>
 </div>

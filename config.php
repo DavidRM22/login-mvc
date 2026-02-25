@@ -15,6 +15,8 @@ define('MAIL_USERNAME', getenv('MAIL_USERNAME') ?: '');
 define('MAIL_PASSWORD', getenv('MAIL_PASSWORD') ?: '');
 define('MAIL_ENCRYPTION', getenv('MAIL_ENCRYPTION') ?: 'tls');
 define('MAIL_AUTH', filter_var(getenv('MAIL_AUTH') ?: 'true', FILTER_VALIDATE_BOOLEAN));
+define('MAIL_REPLY_TO', getenv('MAIL_REPLY_TO') ?: MAIL_FROM_EMAIL);
+define('MAIL_RETURN_PATH', getenv('MAIL_RETURN_PATH') ?: MAIL_FROM_EMAIL);
 
 
 function redirect($url)

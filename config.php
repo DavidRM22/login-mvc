@@ -6,7 +6,6 @@ define('APP_PATH', BASE_PATH . '/app');
 define('VIEW_PATH', APP_PATH . '/views');
 define('MODEL_PATH', APP_PATH . '/models');
 define('CONTROLLER_PATH', APP_PATH . '/controllers');
-define('DATA_PATH', BASE_PATH . '/data');
 define('MAIL_FROM_EMAIL', getenv('MAIL_FROM_EMAIL') ?: 'no-reply@login-mvc.local');
 define('MAIL_FROM_NAME', getenv('MAIL_FROM_NAME') ?: 'Login MVC');
 define('MAIL_HOST', getenv('MAIL_HOST') ?: 'smtp.gmail.com');

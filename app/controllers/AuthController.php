@@ -14,8 +14,8 @@ class AuthController
 
     public function doLogin()
     {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $email = strtolower(trim($_POST['email'] ?? ''));
+        $password = trim($_POST['password'] ?? '');
 
         $userModel = new UserModel();
         $user = $userModel->findByEmail($email);
@@ -56,9 +56,9 @@ class AuthController
 
     public function doRegister()
     {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $name = trim($_POST['name'] ?? '');
+        $email = strtolower(trim($_POST['email'] ?? ''));
+        $password = trim($_POST['password'] ?? '');
 
         $userModel = new UserModel();
         $userModel->create([

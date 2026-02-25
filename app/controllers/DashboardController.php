@@ -28,12 +28,11 @@ class DashboardController
 
     public function audit()
     {
-    authRequired();
+        authRequired();
 
-    $auditModel = new AuditModel();
-    $logs = json_decode(file_get_contents(DATA_PATH . '/audit.json'), true);
+        $auditModel = new AuditModel();
+        $logs = $auditModel->getAll();
 
-    require VIEW_PATH . '/audit.php';
+        require VIEW_PATH . '/audit.php';
     }
-
 }

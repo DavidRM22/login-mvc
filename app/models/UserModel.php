@@ -4,30 +4,13 @@ require_once MODEL_PATH . '/database.php';
 
 class UserModel
 {
-    private $jsonFile;
-
-    public function __construct()
-    {
-        $this->jsonFile = DATA_PATH . '/users.json';
-
-        if (!file_exists($this->jsonFile)) {
-            file_put_contents($this->jsonFile, json_encode([]));
-        }
-    }
-
     public function create($data)
     {
-        // --- GUARDAR EN JSON ---
-        $users = json_decode(file_get_contents($this->jsonFile), true);
-
+        $data['name'] = trim((string) ($data['name'] ?? ''));
+        $data['email'] = strtolower(trim((string) ($data['email'] ?? '')));
         $data['id'] = uniqid();
         $data['created_at'] = date('Y-m-d H:i:s');
 
-        $users[] = $data;
-
-        file_put_contents($this->jsonFile, json_encode($users, JSON_PRETTY_PRINT));
-
-        // --- GUARDAR EN MYSQL ---
         $db = Database::connect();
 
         $sql = "INSERT INTO users (id, name, email, password, created_at)
@@ -39,14 +22,19 @@ class UserModel
 
     public function findByEmail($email)
     {
-        $users = json_decode(file_get_contents($this->jsonFile), true);
+        $db = Database::connect();
+        $email = strtolower(trim((string) $email));
 
-        foreach ($users as $user) {
-            if ($user['email'] === $email) {
-                return $user;
-            }
-        }
+        $sql = "SELECT id, name, email, password, created_at
+                FROM users
+                WHERE email = :email
+                LIMIT 1";
 
-        return null;
+        $stmt = $db->prepare($sql);
+        $stmt->execute(['email' => $email]);
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user ?: null;
     }
 }

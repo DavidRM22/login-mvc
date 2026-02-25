@@ -23,7 +23,7 @@ class DashboardController
     public function logout()
     {
         session_destroy();
-        redirect('index.php?controller=auth&action=login');
+        redirect(route('auth', 'login'));
     }
 
     public function audit()

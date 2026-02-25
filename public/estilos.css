@@ -216,3 +216,28 @@ textarea:focus {
         padding: 24px 18px;
     }
 }
+
+.otp-group {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.otp-input {
+    text-align: center;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 12px 0;
+}
+
+@media (max-width: 480px) {
+    .otp-group {
+        gap: 8px;
+    }
+
+    .otp-input {
+        font-size: 1.1rem;
+        padding: 10px 0;
+    }
+}

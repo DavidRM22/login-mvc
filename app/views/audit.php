@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auditoría del Sistema</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="<?= asset('estilos.css') ?>">
 </head>
 <body>
 <div class="page-shell">
@@ -38,7 +38,7 @@
         </div>
 
         <div class="links-row">
-            <a href="index.php?controller=dashboard&action=index">Volver al panel</a>
+            <a href="<?= route('dashboard', 'index') ?>">Volver al panel</a>
         </div>
     </section>
 </div>

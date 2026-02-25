@@ -20,6 +20,13 @@ class DashboardController
         require VIEW_PATH . '/dashboard.php';
     }
 
+
+    public function addEmployee()
+    {
+        authRequired();
+        require VIEW_PATH . '/add_employee.php';
+    }
+
     public function logout()
     {
         session_destroy();

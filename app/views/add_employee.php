@@ -48,6 +48,10 @@
                 <div class="field">
                     <label for="type">Tipo de Empleado *</label>
                     <select id="type" name="type" required>
+                        <option>Administrador</option>
+                        <option>Instructor</option>
+                        <option>Desarrollador</option>
+                        <option>Asistente Administrativo</option>
                         <option>Instructor</option>
                         <option>Admin</option>
                         <option>Desarrollador</option>

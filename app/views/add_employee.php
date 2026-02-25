@@ -69,9 +69,6 @@
                         <option>Soporte Tecnico</option>
                         <option>Operaciones</option>
                         <option>Finanzas</option>
-                        <option>Recursos Humanos</option>
-                        <option>Administración</option>
-                        <option>Operaciones</option>
                     </select>
                 </div>
 

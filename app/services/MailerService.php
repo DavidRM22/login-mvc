@@ -1,5 +1,8 @@
 <?php
 
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+
 class MailerService
 {
     private string $fromEmail;
@@ -22,107 +25,60 @@ class MailerService
         $this->smtpPass = SMTP_PASS;
         $this->smtpEncryption = strtolower(SMTP_ENCRYPTION);
         $this->smtpTimeout = SMTP_TIMEOUT;
+
+        $autoload = BASE_PATH . '/vendor/autoload.php';
+        if (file_exists($autoload)) {
+            require_once $autoload;
+        }
     }
 
     public function sendOTP(string $toEmail, string $otpCode): bool
     {
-        $subject = 'Tu código OTP de acceso';
-        $htmlMessage = $this->buildOtpMessage($otpCode);
+        if (!class_exists(PHPMailer::class)) {
+            $this->lastError = 'PHPMailer no está instalado. Ejecuta: composer require phpmailer/phpmailer';
+            return false;
+        }
 
-        return $this->sendViaSmtp($toEmail, $subject, $htmlMessage);
-    }
-
-    public function getLastError(): string
-    {
-        return $this->lastError;
-    }
-
-    private function sendViaSmtp(string $toEmail, string $subject, string $htmlMessage): bool
-    {
         if ($this->smtpHost === '') {
             $this->lastError = 'Falta configurar SMTP_HOST en el entorno.';
             return false;
         }
 
-        $transport = $this->smtpEncryption === 'ssl' ? 'ssl://' : '';
-        $socket = @stream_socket_client(
-            $transport . $this->smtpHost . ':' . $this->smtpPort,
-            $errno,
-            $errstr,
-            $this->smtpTimeout
-        );
+        $mail = new PHPMailer(true);
 
-        if (!$socket) {
-            $this->lastError = "No se pudo conectar al SMTP ({$this->smtpHost}:{$this->smtpPort}): {$errstr} ({$errno})";
-            return false;
-        }
+        try {
+            $mail->isSMTP();
+            $mail->Host = $this->smtpHost;
+            $mail->Port = $this->smtpPort;
+            $mail->SMTPAuth = $this->smtpUser !== '';
+            $mail->Username = $this->smtpUser;
+            $mail->Password = $this->smtpPass;
+            $mail->Timeout = $this->smtpTimeout;
 
-        stream_set_timeout($socket, $this->smtpTimeout);
-
-        if (!$this->expectCode($socket, [220])) {
-            fclose($socket);
-            return false;
-        }
-
-        if (!$this->sendCommand($socket, 'EHLO localhost', [250])) {
-            fclose($socket);
-            return false;
-        }
-
-        if ($this->smtpEncryption === 'tls') {
-            if (!$this->sendCommand($socket, 'STARTTLS', [220])) {
-                fclose($socket);
-                return false;
+            if ($this->smtpEncryption === 'ssl') {
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+            } elseif ($this->smtpEncryption === 'tls') {
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             }
 
-            if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
-                $this->lastError = 'No se pudo establecer canal TLS con el servidor SMTP.';
-                fclose($socket);
-                return false;
-            }
+            $mail->CharSet = 'UTF-8';
+            $mail->setFrom($this->fromEmail, $this->fromName);
+            $mail->addAddress($toEmail);
+            $mail->isHTML(true);
+            $mail->Subject = 'Tu código OTP de acceso';
+            $mail->Body = $this->buildOtpMessage($otpCode);
+            $mail->AltBody = 'Tu código OTP es: ' . $otpCode . '. Este código expira en 5 minutos.';
 
-            if (!$this->sendCommand($socket, 'EHLO localhost', [250])) {
-                fclose($socket);
-                return false;
-            }
-        }
-
-        if ($this->smtpUser !== '') {
-            if (!$this->sendCommand($socket, 'AUTH LOGIN', [334]) ||
-                !$this->sendCommand($socket, base64_encode($this->smtpUser), [334]) ||
-                !$this->sendCommand($socket, base64_encode($this->smtpPass), [235])) {
-                fclose($socket);
-                return false;
-            }
-        }
-
-        if (!$this->sendCommand($socket, 'MAIL FROM:<' . $this->fromEmail . '>', [250])) {
-            fclose($socket);
+            return $mail->send();
+        } catch (Exception $e) {
+            $this->lastError = $mail->ErrorInfo ?: $e->getMessage();
             return false;
         }
+    }
 
-        if (!$this->sendCommand($socket, 'RCPT TO:<' . $toEmail . '>', [250, 251])) {
-            fclose($socket);
-            return false;
-        }
-
-        if (!$this->sendCommand($socket, 'DATA', [354])) {
-            fclose($socket);
-            return false;
-        }
-
-        $message = $this->buildMimeMessage($toEmail, $subject, $htmlMessage);
-        fwrite($socket, $message . "\r\n.\r\n");
-
-        if (!$this->expectCode($socket, [250])) {
-            fclose($socket);
-            return false;
-        }
-
-        $this->sendCommand($socket, 'QUIT', [221]);
-        fclose($socket);
-
-        return true;
+    public function getLastError(): string
+    {
+        return $this->lastError;
     }
 
     private function buildOtpMessage(string $otpCode): string
@@ -135,61 +91,5 @@ class MailerService
             <p style=\"font-size:24px;font-weight:bold;letter-spacing:2px;\">{$otpCode}</p>
             <p>Este código expira en 5 minutos.</p>
         ";
-    }
-
-    private function buildMimeMessage(string $toEmail, string $subject, string $htmlMessage): string
-    {
-        $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
-        $headers = [
-            'Date: ' . date('r'),
-            'From: ' . $this->formatFromHeader(),
-            'To: <' . $toEmail . '>',
-            'Subject: ' . $encodedSubject,
-            'MIME-Version: 1.0',
-            'Content-Type: text/html; charset=UTF-8',
-            'Content-Transfer-Encoding: 8bit',
-        ];
-
-        return implode("\r\n", $headers) . "\r\n\r\n" . $htmlMessage;
-    }
-
-    private function sendCommand($socket, string $command, array $expectedCodes): bool
-    {
-        fwrite($socket, $command . "\r\n");
-        return $this->expectCode($socket, $expectedCodes, $command);
-    }
-
-    private function expectCode($socket, array $expectedCodes, string $command = ''): bool
-    {
-        $response = '';
-
-        while (($line = fgets($socket, 515)) !== false) {
-            $response .= $line;
-
-            if (strlen($line) >= 4 && $line[3] === ' ') {
-                break;
-            }
-        }
-
-        $code = (int)substr($response, 0, 3);
-
-        if (!in_array($code, $expectedCodes, true)) {
-            $prefix = $command !== '' ? "Comando {$command}: " : '';
-            $this->lastError = $prefix . 'respuesta SMTP inesperada: ' . trim($response);
-            return false;
-        }
-
-        return true;
-    }
-
-    private function formatFromHeader(): string
-    {
-        $name = trim($this->fromName);
-
-        if ($name === '') {
-            return '<' . $this->fromEmail . '>';
-        }
-
-        return sprintf('%s <%s>', $name, $this->fromEmail);
     }
 }

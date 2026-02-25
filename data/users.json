@@ -103,5 +103,19 @@
         "password": "$2y$10$T770rNdC1WpUD69gS4nh2egmLMP1b1GOj812Vbw6OhMgwVk\/hMBiu",
         "id": "699e52a5ab529",
         "created_at": "2026-02-24 20:38:45"
+    },
+    {
+        "name": "juan12",
+        "email": "juan12@gmail.com",
+        "password": "$2y$10$TM8xIeJ29KQciUjsP7OwE.7sodK6Vvr5v8NFBodaV0sH2vLlYUk8i",
+        "id": "699e5a4003d9e",
+        "created_at": "2026-02-24 21:11:12"
+    },
+    {
+        "name": "david",
+        "email": "ramirezmelgardavid@gmail.com",
+        "password": "$2y$10$NSm8nbnHhsrWVUcrS3VusOtmvwnLNaVyrJPoTrYXjDaZ7NEVWvHee",
+        "id": "699e5da2be2a9",
+        "created_at": "2026-02-24 21:25:38"
     }
 ]

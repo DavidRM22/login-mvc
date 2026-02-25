@@ -27,13 +27,13 @@ class MailerService
             $mailer = new PHPMailer(true);
             $mailer->CharSet = 'UTF-8';
             $mailer->isSMTP();
-            $mailer->Host = MAIL_HOST;
-            $mailer->Port = MAIL_PORT;
-            $mailer->SMTPAuth = MAIL_AUTH;
+            $mailer->Host = 'smtp.gmail.com';
+            $mailer->Port = 587;
+            $mailer->SMTPAuth = true;
 
             if ($mailer->SMTPAuth) {
-                $mailer->Username = MAIL_USERNAME;
-                $mailer->Password = MAIL_PASSWORD;
+                $mailer->Username = 'dramirezme01@ucvvirtual.edu.pe';
+                $mailer->Password = 'gvke lnnz eyfb niti';
             }
 
             if (MAIL_ENCRYPTION !== '') {

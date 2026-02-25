@@ -117,5 +117,19 @@
         "password": "$2y$10$NSm8nbnHhsrWVUcrS3VusOtmvwnLNaVyrJPoTrYXjDaZ7NEVWvHee",
         "id": "699e5da2be2a9",
         "created_at": "2026-02-24 21:25:38"
+    },
+    {
+        "name": "gheta",
+        "email": "gheta123@hotmail.com",
+        "password": "$2y$10$ZyiYgToRJ2yfUi1tXhy5Fe8lKHzwiBF2LMW05txdWT5t05JOglpDq",
+        "id": "699eff3e8418d",
+        "created_at": "2026-02-25 08:55:10"
+    },
+    {
+        "id": "699f1c5be8eb6",
+        "name": "jean",
+        "email": "gomezsjean@gmail.com",
+        "password": "$2y$10$OfutuQztnwYGfhBZYFGIMu8972Gf9oLvQuLpKm8o2BDBD.EvNdqsS",
+        "created_at": "2026-02-25 10:59:24"
     }
 ]

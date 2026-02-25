@@ -66,26 +66,31 @@ $stats = $stats ?? ['total' => 0, 'instructor' => 0, 'desarrollador' => 0, 'admi
                 <article class="stat-card">
                     <h4>Total Personal</h4>
                     <p class="stat-value"><?= $stats['total'] ?></p>
+                    <p class="stat-value">3</p>
                     <small>Empleados registrados</small>
                 </article>
                 <article class="stat-card">
                     <h4>Instructores</h4>
                     <p class="stat-value"><?= $stats['instructor'] ?></p>
+                    <p class="stat-value">2</p>
                     <small>Equipo docente</small>
                 </article>
                 <article class="stat-card">
                     <h4>Desarrolladores</h4>
                     <p class="stat-value"><?= $stats['desarrollador'] ?></p>
+                    <p class="stat-value">0</p>
                     <small>Equipo técnico</small>
                 </article>
                 <article class="stat-card">
                     <h4>Administradores</h4>
                     <p class="stat-value"><?= $stats['administrador'] ?></p>
+                    <p class="stat-value">1</p>
                     <small>Personal administrativo</small>
                 </article>
                 <article class="stat-card">
                     <h4>Asist. Administrativos</h4>
                     <p class="stat-value"><?= $stats['asistente administrativo'] ?></p>
+                    <p class="stat-value">0</p>
                     <small>Personal de soporte</small>
                 </article>
             </div>
@@ -102,6 +107,15 @@ $stats = $stats ?? ['total' => 0, 'instructor' => 0, 'desarrollador' => 0, 'admi
                 </select>
                 <select aria-label="Filtrar por estado" disabled>
                     <option>Todos los estados</option>
+                <input type="search" placeholder="Buscar por nombre, email o puesto..." aria-label="Buscar personal">
+                <select aria-label="Filtrar por tipo">
+                    <option>Todos los tipos</option>
+                    <option>Instructor</option>
+                    <option>Admin</option>
+                </select>
+                <select aria-label="Filtrar por estado">
+                    <option>Todos los estados</option>
+                    <option>Activo</option>
                 </select>
             </div>
 
@@ -116,6 +130,13 @@ $stats = $stats ?? ['total' => 0, 'instructor' => 0, 'desarrollador' => 0, 'admi
                             <small>Registrado: <?= $employee['created_at'] ?? '-' ?></small>
                         </article>
                     <?php endforeach; ?>
+                    <article class="profile-card">
+                        <div class="avatar"><?= strtoupper(substr($user['name'], 0, 1)) ?></div>
+                        <h4><?= $user['name'] ?></h4>
+                        <span class="role-chip">Instructor</span>
+                        <p><?= $user['email'] ?></p>
+                        <small>Registrado: <?= $user['created_at'] ?></small>
+                    </article>
                 </div>
             <?php else: ?>
                 <div class="table-wrap table-wrap--dashboard">
@@ -150,6 +171,42 @@ $stats = $stats ?? ['total' => 0, 'instructor' => 0, 'desarrollador' => 0, 'admi
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+                        <tr>
+                            <td><?= $user['name'] ?></td>
+                            <td><?= $user['email'] ?></td>
+                            <td><span class="role-chip">Instructor</span></td>
+                            <td>Coordinador de Contenidos</td>
+                            <td>Recursos Humanos</td>
+                            <td><span class="status-chip">active</span></td>
+                            <td>
+                                <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
+                                <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>techskillsperu</td>
+                            <td>techskillsperu@gmail.com</td>
+                            <td><span class="role-chip">Instructor</span></td>
+                            <td>N/A</td>
+                            <td>Recursos Humanos</td>
+                            <td><span class="status-chip">active</span></td>
+                            <td>
+                                <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
+                                <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Carlos Zambrano C.</td>
+                            <td>informes@techskillsperu.com</td>
+                            <td><span class="role-chip role-chip--admin">admin</span></td>
+                            <td>Senior</td>
+                            <td>Administración</td>
+                            <td><span class="status-chip">active</span></td>
+                            <td>
+                                <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
+                                <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

@@ -46,6 +46,8 @@ class DashboardController
         $status = trim($_POST['status'] ?? 'Activo');
 
         if ($name === '' || $email === '' || $type === '') {
+
+        if ($name === '' || $email === '') {
             $_SESSION['employee_error_message'] = 'Completa los campos obligatorios para crear el empleado.';
             redirect(route('dashboard', 'addEmployee'));
         }
@@ -68,6 +70,7 @@ class DashboardController
             'position' => $position,
             'status' => $status,
         ]);
+        $this->createEmployeeUser($name, $email, $temporaryPassword);
 
 
         $_SESSION['employee_success_message'] = 'Empleado creado exitosamente. Contraseña temporal: ' . $temporaryPassword . '. Guarde esta información.';
@@ -105,6 +108,41 @@ class DashboardController
         }
 
         return $stats;
+
+    private function createEmployeeUser($name, $email, $temporaryPassword)
+    {
+        $usersFile = DATA_PATH . '/users.json';
+
+        if (!file_exists($usersFile)) {
+            file_put_contents($usersFile, json_encode([]));
+        }
+
+        $users = json_decode(file_get_contents($usersFile), true);
+        if (!is_array($users)) {
+            $users = [];
+        }
+
+        $users[] = [
+            'id' => uniqid(),
+            'name' => $name,
+            'email' => $email,
+            'password' => password_hash($temporaryPassword, PASSWORD_DEFAULT),
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+
+        file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
+    }
+
+    private function generateTemporaryPassword($length = 12)
+    {
+        $characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%';
+        $password = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $characters[random_int(0, strlen($characters) - 1)];
+        }
+
+        return $password;
     }
 
     public function logout()

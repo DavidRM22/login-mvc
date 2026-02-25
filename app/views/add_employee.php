@@ -34,6 +34,7 @@ unset($_SESSION['employee_success_message'], $_SESSION['employee_error_message']
                     <p><?= $errorMessage ?></p>
                 </div>
             <?php endif; ?>
+        <form class="employee-form" method="get" action="<?= route('dashboard', 'index') ?>">
             <h2>Información del Usuario</h2>
             <div class="employee-grid employee-grid--two">
                 <div class="field">
@@ -98,6 +99,7 @@ unset($_SESSION['employee_success_message'], $_SESSION['employee_error_message']
                         <option>Instructor Junior</option>
                         <option>Coordinador de Contenidos</option>
                         <option>Especialista en Formacion</option>
+                    
                     </select>
                 </div>
 

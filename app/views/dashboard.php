@@ -23,6 +23,7 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
 
         <span class="sidebar-section">GENERAL</span>
         <a class="sidebar-link" href="<?= route('dashboard', 'addEmployee') ?>">Agregar empleado</a>
+        <a class="sidebar-link" href="<?= route('auth', 'register') ?>">Agregar empleado</a>
         <a class="sidebar-link" href="<?= route('dashboard', 'logout') ?>">Cerrar sesión</a>
     </aside>
 
@@ -57,6 +58,7 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
                 <div class="module-actions">
                     <a class="btn-secondary btn-inline" href="<?= route('dashboard', 'audit') ?>">Exportar</a>
                     <a class="btn-primary btn-inline" href="<?= route('dashboard', 'addEmployee') ?>">Agregar Empleado</a>
+                    <a class="btn-primary btn-inline" href="<?= route('auth', 'register') ?>">Agregar Empleado</a>
                 </div>
             </div>
 
@@ -141,6 +143,7 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
                             <td>
                                 <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
                                 <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
+                                <a class="table-link" href="<?= route('auth', 'register') ?>">Editar</a>
                             </td>
                         </tr>
                         <tr>
@@ -153,6 +156,7 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
                             <td>
                                 <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
                                 <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
+                                <a class="table-link" href="<?= route('auth', 'register') ?>">Editar</a>
                             </td>
                         </tr>
                         <tr>
@@ -165,6 +169,7 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
                             <td>
                                 <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
                                 <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
+                                <a class="table-link" href="<?= route('auth', 'register') ?>">Editar</a>
                             </td>
                         </tr>
                         </tbody>

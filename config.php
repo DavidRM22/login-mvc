@@ -9,6 +9,12 @@ define('CONTROLLER_PATH', APP_PATH . '/controllers');
 define('DATA_PATH', BASE_PATH . '/data');
 define('MAIL_FROM_EMAIL', getenv('MAIL_FROM_EMAIL') ?: 'no-reply@login-mvc.local');
 define('MAIL_FROM_NAME', getenv('MAIL_FROM_NAME') ?: 'Login MVC');
+define('MAIL_HOST', getenv('MAIL_HOST') ?: 'smtp.gmail.com');
+define('MAIL_PORT', (int)(getenv('MAIL_PORT') ?: 587));
+define('MAIL_USERNAME', getenv('MAIL_USERNAME') ?: '');
+define('MAIL_PASSWORD', getenv('MAIL_PASSWORD') ?: '');
+define('MAIL_ENCRYPTION', getenv('MAIL_ENCRYPTION') ?: 'tls');
+define('MAIL_AUTH', filter_var(getenv('MAIL_AUTH') ?: 'true', FILTER_VALIDATE_BOOLEAN));
 
 
 function redirect($url)
@@ -35,7 +41,7 @@ function asset($file)
 
 function isLoggedIn()
 {
-  return isset($_SESSION['user_id']);
+    return isset($_SESSION['user_id']);
 
 }
 
@@ -47,4 +53,3 @@ function authRequired()
         redirect(route('auth', 'login'));
     }
 }
-

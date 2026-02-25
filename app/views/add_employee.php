@@ -69,6 +69,10 @@
                     <label for="position">Puesto / Posición</label>
                     <select id="position" name="position">
                         <option>Seleccionar puesto</option>
+                        <option>Instructor Senior</option>
+                        <option>Instructor Junior</option>
+                        <option>Coordinador de Contenidos</option>
+                        <option>Especialista en Formacion</option>
                         <option>Coordinador de Contenidos</option>
                         <option>Senior</option>
                     </select>

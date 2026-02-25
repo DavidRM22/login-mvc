@@ -52,6 +52,9 @@
                         <option>Instructor</option>
                         <option>Desarrollador</option>
                         <option>Asistente Administrativo</option>
+                        <option>Instructor</option>
+                        <option>Admin</option>
+                        <option>Desarrollador</option>
                     </select>
                 </div>
 

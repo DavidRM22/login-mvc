@@ -20,6 +20,10 @@ class UserModel
         // --- GUARDAR EN JSON ---
         $users = json_decode(file_get_contents($this->jsonFile), true);
 
+        if (!is_array($users)) {
+            $users = [];
+        }
+
         $data['id'] = uniqid();
         $data['created_at'] = date('Y-m-d H:i:s');
 
@@ -28,13 +32,29 @@ class UserModel
         file_put_contents($this->jsonFile, json_encode($users, JSON_PRETTY_PRINT));
 
         // --- GUARDAR EN MYSQL ---
-        $db = Database::connect();
+        try {
+            $db = Database::connect();
 
-        $sql = "INSERT INTO users (id, name, email, password, created_at)
-                VALUES (:id, :name, :email, :password, :created_at)";
+            $sql = "INSERT INTO users (id, name, email, password, created_at)
+                    VALUES (:id, :name, :email, :password, :created_at)";
 
-        $stmt = $db->prepare($sql);
-        $stmt->execute($data);
+            $stmt = $db->prepare($sql);
+            $stmt->execute([
+                'id' => $data['id'],
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $data['password'],
+                'created_at' => $data['created_at'],
+            ]);
+        } catch (Throwable $e) {
+            // Si MySQL no está disponible, se mantiene persistencia en JSON.
+        }
+    }
+
+    public function all()
+    {
+        $users = json_decode(file_get_contents($this->jsonFile), true);
+        return is_array($users) ? $users : [];
     }
 
     public function findByEmail($email)

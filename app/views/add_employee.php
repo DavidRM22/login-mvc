@@ -73,6 +73,8 @@
                         <option>Instructor Junior</option>
                         <option>Coordinador de Contenidos</option>
                         <option>Especialista en Formacion</option>
+                        <option>Coordinador de Contenidos</option>
+                        <option>Senior</option>
                     </select>
                 </div>
 

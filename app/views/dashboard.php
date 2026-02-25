@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard RRHH</title>
     <link rel="stylesheet" href="<?= asset('estilos.css') ?>">
+    <link rel="stylesheet" href="<?= asset('dashboard.css') ?>">
 </head>
 <body class="dashboard-body">
 <?php
@@ -21,6 +22,7 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
         <a class="sidebar-link" href="<?= route('dashboard', 'audit') ?>">Auditoría</a>
 
         <span class="sidebar-section">GENERAL</span>
+        <a class="sidebar-link" href="<?= route('dashboard', 'addEmployee') ?>">Agregar empleado</a>
         <a class="sidebar-link" href="<?= route('auth', 'register') ?>">Agregar empleado</a>
         <a class="sidebar-link" href="<?= route('dashboard', 'logout') ?>">Cerrar sesión</a>
     </aside>
@@ -55,6 +57,7 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
 
                 <div class="module-actions">
                     <a class="btn-secondary btn-inline" href="<?= route('dashboard', 'audit') ?>">Exportar</a>
+                    <a class="btn-primary btn-inline" href="<?= route('dashboard', 'addEmployee') ?>">Agregar Empleado</a>
                     <a class="btn-primary btn-inline" href="<?= route('auth', 'register') ?>">Agregar Empleado</a>
                 </div>
             </div>
@@ -139,6 +142,7 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
                             <td><span class="status-chip">active</span></td>
                             <td>
                                 <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
+                                <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
                                 <a class="table-link" href="<?= route('auth', 'register') ?>">Editar</a>
                             </td>
                         </tr>
@@ -151,6 +155,7 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
                             <td><span class="status-chip">active</span></td>
                             <td>
                                 <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
+                                <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
                                 <a class="table-link" href="<?= route('auth', 'register') ?>">Editar</a>
                             </td>
                         </tr>
@@ -163,6 +168,7 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
                             <td><span class="status-chip">active</span></td>
                             <td>
                                 <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
+                                <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
                                 <a class="table-link" href="<?= route('auth', 'register') ?>">Editar</a>
                             </td>
                         </tr>
@@ -172,5 +178,6 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
             <?php endif; ?>
         </section>
     </main>
+</div>
 </body>
 </html>

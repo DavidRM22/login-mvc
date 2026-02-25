@@ -174,7 +174,9 @@ textarea:focus {
 .actions {
     display: grid;
     gap: 12px;
+    margin-top: 24px;
 }
+
 
 .table-wrap {
     overflow-x: auto;
@@ -215,6 +217,7 @@ textarea:focus {
     .panel {
         padding: 24px 18px;
     }
+
 }
 
 .otp-group {

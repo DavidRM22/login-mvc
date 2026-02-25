@@ -11,6 +11,8 @@
 <?php
 $view = $_GET['view'] ?? 'table';
 $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
+$employees = $employees ?? [];
+$stats = $stats ?? ['total' => 0, 'instructor' => 0, 'desarrollador' => 0, 'administrador' => 0, 'asistente administrativo' => 0];
 ?>
 <div class="dashboard-layout">
     <aside class="dashboard-sidebar">
@@ -63,26 +65,31 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
             <div class="stats-grid">
                 <article class="stat-card">
                     <h4>Total Personal</h4>
+                    <p class="stat-value"><?= $stats['total'] ?></p>
                     <p class="stat-value">3</p>
                     <small>Empleados registrados</small>
                 </article>
                 <article class="stat-card">
                     <h4>Instructores</h4>
+                    <p class="stat-value"><?= $stats['instructor'] ?></p>
                     <p class="stat-value">2</p>
                     <small>Equipo docente</small>
                 </article>
                 <article class="stat-card">
                     <h4>Desarrolladores</h4>
+                    <p class="stat-value"><?= $stats['desarrollador'] ?></p>
                     <p class="stat-value">0</p>
                     <small>Equipo técnico</small>
                 </article>
                 <article class="stat-card">
                     <h4>Administradores</h4>
+                    <p class="stat-value"><?= $stats['administrador'] ?></p>
                     <p class="stat-value">1</p>
                     <small>Personal administrativo</small>
                 </article>
                 <article class="stat-card">
                     <h4>Asist. Administrativos</h4>
+                    <p class="stat-value"><?= $stats['asistente administrativo'] ?></p>
                     <p class="stat-value">0</p>
                     <small>Personal de soporte</small>
                 </article>
@@ -94,6 +101,12 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
             </div>
 
             <div class="filter-row">
+                <input type="search" placeholder="Buscar por nombre, email o puesto..." aria-label="Buscar personal" disabled>
+                <select aria-label="Filtrar por tipo" disabled>
+                    <option>Todos los tipos</option>
+                </select>
+                <select aria-label="Filtrar por estado" disabled>
+                    <option>Todos los estados</option>
                 <input type="search" placeholder="Buscar por nombre, email o puesto..." aria-label="Buscar personal">
                 <select aria-label="Filtrar por tipo">
                     <option>Todos los tipos</option>
@@ -108,6 +121,15 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
 
             <?php if ($activeView === 'gallery'): ?>
                 <div class="gallery-grid">
+                    <?php foreach ($employees as $employee): ?>
+                        <article class="profile-card">
+                            <div class="avatar"><?= strtoupper(substr($employee['name'] ?? 'E', 0, 1)) ?></div>
+                            <h4><?= $employee['name'] ?? 'Empleado' ?></h4>
+                            <span class="role-chip<?= strtolower($employee['type'] ?? '') === 'administrador' ? ' role-chip--admin' : '' ?>"><?= $employee['type'] ?? 'Sin tipo' ?></span>
+                            <p><?= $employee['email'] ?? '-' ?></p>
+                            <small>Registrado: <?= $employee['created_at'] ?? '-' ?></small>
+                        </article>
+                    <?php endforeach; ?>
                     <article class="profile-card">
                         <div class="avatar"><?= strtoupper(substr($user['name'], 0, 1)) ?></div>
                         <h4><?= $user['name'] ?></h4>
@@ -131,6 +153,24 @@ $activeView = in_array($view, ['table', 'gallery'], true) ? $view : 'table';
                         </tr>
                         </thead>
                         <tbody>
+                        <?php foreach ($employees as $employee): ?>
+                            <tr>
+                                <td><?= $employee['name'] ?? '-' ?></td>
+                                <td><?= $employee['email'] ?? '-' ?></td>
+                                <td>
+                                    <span class="role-chip<?= strtolower($employee['type'] ?? '') === 'administrador' ? ' role-chip--admin' : '' ?>">
+                                        <?= $employee['type'] ?? 'Sin tipo' ?>
+                                    </span>
+                                </td>
+                                <td><?= $employee['position'] ?? 'N/A' ?></td>
+                                <td><?= $employee['department'] ?? 'N/A' ?></td>
+                                <td><span class="status-chip"><?= strtolower($employee['status'] ?? 'active') ?></span></td>
+                                <td>
+                                    <a class="table-link" href="<?= route('dashboard', 'audit') ?>">Ver</a>
+                                    <a class="table-link" href="<?= route('dashboard', 'addEmployee') ?>">Editar</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                         <tr>
                             <td><?= $user['name'] ?></td>
                             <td><?= $user['email'] ?></td>

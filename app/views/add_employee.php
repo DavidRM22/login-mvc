@@ -69,6 +69,9 @@
                         <option>Soporte Tecnico</option>
                         <option>Operaciones</option>
                         <option>Finanzas</option>
+                        <option>Recursos Humanos</option>
+                        <option>Administración</option>
+                        <option>Operaciones</option>
                     </select>
                 </div>
 
@@ -80,6 +83,7 @@
                         <option>Instructor Junior</option>
                         <option>Coordinador de Contenidos</option>
                         <option>Especialista en Formacion</option>
+                    
                     </select>
                 </div>
 

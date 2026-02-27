@@ -15,7 +15,7 @@ class Database
                 );
                 self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                die("Error de conexión: " . $e->getMessage());
+                throw new RuntimeException("Error de conexión a MySQL: " . $e->getMessage(), 0, $e);
             }
         }
 

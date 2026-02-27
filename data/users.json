@@ -138,5 +138,10 @@
         "password": "$2y$10$7acHZVMaMVRnF62Fgp7ztuYs2u9hz9D8XHi8qhLOizktSJJFANZlW",
         "id": "699f334cd307f",
         "created_at": "2026-02-25 12:37:16"
+        "id": "699f1c5be8eb6",
+        "name": "jean",
+        "email": "gomezsjean@gmail.com",
+        "password": "$2y$10$OfutuQztnwYGfhBZYFGIMu8972Gf9oLvQuLpKm8o2BDBD.EvNdqsS",
+        "created_at": "2026-02-25 10:59:24"
     }
 ]

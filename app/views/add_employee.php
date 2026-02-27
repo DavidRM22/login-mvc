@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="<?= asset('dashboard.css') ?>">
 </head>
 <body class="dashboard-body">
+<?php
+$successMessage = $_SESSION['employee_success_message'] ?? null;
+$errorMessage = $_SESSION['employee_error_message'] ?? null;
+unset($_SESSION['employee_success_message'], $_SESSION['employee_error_message']);
+?>
 <div class="employee-shell">
     <section class="employee-modal">
         <div class="employee-modal__header">
@@ -15,6 +20,20 @@
             <a class="employee-modal__close" href="<?= route('dashboard', 'index') ?>" aria-label="Cerrar">×</a>
         </div>
 
+        <form class="employee-form" method="POST" action="<?= route('dashboard', 'doAddEmployee') ?>">
+            <?php if ($successMessage): ?>
+                <div class="employee-notice">
+                    <span class="employee-notice__icon">✓</span>
+                    <p><?= $successMessage ?></p>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($errorMessage): ?>
+                <div class="employee-notice employee-notice--error">
+                    <span class="employee-notice__icon">!</span>
+                    <p><?= $errorMessage ?></p>
+                </div>
+            <?php endif; ?>
         <form class="employee-form" method="get" action="<?= route('dashboard', 'index') ?>">
             <h2>Información del Usuario</h2>
             <div class="employee-grid employee-grid--two">
@@ -69,6 +88,9 @@
                         <option>Soporte Tecnico</option>
                         <option>Operaciones</option>
                         <option>Finanzas</option>
+                        <option>Recursos Humanos</option>
+                        <option>Administración</option>
+                        <option>Operaciones</option>
                     </select>
                 </div>
 

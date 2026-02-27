@@ -62,5 +62,11 @@
     "informes@techskillsperu.com": {
         "code": 259580,
         "expires_at": 1772041336
+        "code": 269184,
+        "expires_at": 1772031589
+    },
+    "gomezsjean@gmail.com": {
+        "code": 345325,
+        "expires_at": 1772035490
     }
 }
